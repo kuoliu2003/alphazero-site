@@ -1,7 +1,7 @@
 # AlphaZero explainer — website
 
 Source for the public AlphaZero explainer page, hosted on Cloudflare Pages at
-**https://alphazero.kuosmindpalace.com**.
+**https://alphazero-site.pages.dev**.
 
 This repo is intentionally tiny — just the deployable site:
 
