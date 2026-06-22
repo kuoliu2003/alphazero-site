@@ -7,7 +7,7 @@ This repo is intentionally tiny — just the deployable site:
 
 ```
 index.html        the explainer (self-contained: inline CSS/SVG, MathJax/fonts via CDN)
-results/*.png     the four result figures the page embeds
+figures/*.png     the four result figures the page embeds
 ```
 
 It's a static site — no build step. Cloudflare Pages serves `index.html` at the

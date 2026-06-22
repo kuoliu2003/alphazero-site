@@ -2143,12 +2143,12 @@ buffer  ← <span class="kw">empty</span>()        <span class="com"># replay bu
           </div>
         </div>
       </div>
-      <figcaption><b>Fig. 7.</b> Final Elo ranking; whiskers are 95 % bootstrap confidence intervals (400 refits of the whole tournament; the two weakest agents' intervals extend below 0 and are clipped at the axis — exact values in <code class="k">results/tournament_go9_ranking_v2.csv</code>). The two untrained-net agents sit ~1,000 Elo below their trained versions. The fitted first-mover advantage is +6 Elo [−46, +54] — indistinguishable from zero (see the colour note below). A matplotlib rendering of this chart lives at <code class="k">results/tournament_go9_ranking_v2.png</code>; the full pairwise matrix follows as Fig. 8.</figcaption>
+      <figcaption><b>Fig. 7.</b> Final Elo ranking; whiskers are 95 % bootstrap confidence intervals (400 refits of the whole tournament; the two weakest agents' intervals extend below 0 and are clipped at the axis — exact values in <code class="k">results/tournament_go9_ranking_v2.csv</code>). The two untrained-net agents sit ~1,000 Elo below their trained versions. The fitted first-mover advantage is +6 Elo [−46, +54] — indistinguishable from zero (see the colour note below). A matplotlib rendering of this chart lives at <code class="k">figures/tournament_go9_ranking_v2.png</code>; the full pairwise matrix follows as Fig. 8.</figcaption>
     </figure>
 
     <figure class="f">
-      <img class="plate" src="results/tournament_go9_heatmap_v2.png" alt="14-by-14 pairwise win-rate matrix for the 9x9 Go tournament, rows and columns sorted by Elo" loading="lazy">
-      <figcaption><b>Fig. 8.</b> The full pairwise picture behind Fig. 7: win + ½-draw rate of each row agent against each column agent (100 games per cell), sorted by Elo. The clean red-above-diagonal / blue-below structure means the ranking is essentially transitive — no rock-paper-scissors pockets anywhere in the pool. (File: <code class="k">results/tournament_go9_heatmap_v2.png</code>.)</figcaption>
+      <img class="plate" src="figures/tournament_go9_heatmap_v2.png" alt="14-by-14 pairwise win-rate matrix for the 9x9 Go tournament, rows and columns sorted by Elo" loading="lazy">
+      <figcaption><b>Fig. 8.</b> The full pairwise picture behind Fig. 7: win + ½-draw rate of each row agent against each column agent (100 games per cell), sorted by Elo. The clean red-above-diagonal / blue-below structure means the ranking is essentially transitive — no rock-paper-scissors pockets anywhere in the pool. (File: <code class="k">figures/tournament_go9_heatmap_v2.png</code>.)</figcaption>
     </figure>
 
     <h2>Four findings, with uncertainty</h2>
@@ -2179,19 +2179,19 @@ buffer  ← <span class="kw">empty</span>()        <span class="com"># replay bu
     <p>Refit jointly over all 10,000 Go games, the final ranking puts <b>large net, iteration 40, at 1,374 Elo [1,328, 1,431]</b>, ahead of <b>small net, iteration 40, at 1,295 [1,258, 1,346]</b> — with the iteration-20 ordering (small first) preserved below them. The capacity story completes: <b>at matched, modest data the small net wins; give the big net twice the data and it overtakes, while the small net's returns flatten.</b> Capacity isn't wasted on 9 × 9 Go — it just has to be paid for in self-play games. (The first-mover advantage, refit on 500 more per-colour games, tightens to −9 Elo [−36, +18]: still zero. And in 500 games between trained agents there was not a single draw — consistent with draws being a weak-agent, move-cap artifact.)</p>
 
     <figure class="f">
-      <img class="plate" src="results/tournament_go9_iter40_ranking_v2.png" alt="16-agent Elo ranking including iteration-40 networks; large net iteration 40 on top" loading="lazy">
-      <figcaption><b>Fig. 9.</b> The full 16-agent picture after the catch-up runs. The top four bars alternate sizes — large 40, small 40, small 20, large 20 — which is the crossover in one image: more capacity loses at low data and wins at high data. (File: <code class="k">results/tournament_go9_iter40_ranking_v2.png</code>; per-pairing data: <code class="k">results/go9_catchup.csv</code>.)</figcaption>
+      <img class="plate" src="figures/tournament_go9_iter40_ranking_v2.png" alt="16-agent Elo ranking including iteration-40 networks; large net iteration 40 on top" loading="lazy">
+      <figcaption><b>Fig. 9.</b> The full 16-agent picture after the catch-up runs. The top four bars alternate sizes — large 40, small 40, small 20, large 20 — which is the crossover in one image: more capacity loses at low data and wins at high data. (File: <code class="k">figures/tournament_go9_iter40_ranking_v2.png</code>; per-pairing data: <code class="k">results/go9_catchup.csv</code>.)</figcaption>
     </figure>
 
     <p><b>And when, exactly, did it catch up?</b> Every training round was checkpointed, so we can ask directly: matched-stage duels every five rounds (100 games each) trace the whole arc. Untrained, the two nets are statistically even. Through rounds 10–20 the small net leads — the large net wins only 41–42 % of games. At rounds 25–30 they are back to even (50 %, 47 %). By round 35 the large net is ahead (59 %), and by 40 clearly so (63 %). The crossover sits around <b>rounds 25–30 — roughly 12,500–15,000 self-play games</b> before the extra capacity started paying rent. The early dip is the most instructive part: in the low-data regime the extra parameters actively <em>hurt</em> before they help.</p>
 
     <figure class="f">
-      <img class="plate" src="results/go9_crossover_curve.png" alt="Large-net win share against the small net at matched training rounds, crossing 50 percent around rounds 25 to 30" loading="lazy">
+      <img class="plate" src="figures/go9_crossover_curve.png" alt="Large-net win share against the small net at matched training rounds, crossing 50 percent around rounds 25 to 30" loading="lazy">
       <figcaption><b>Fig. 10.</b> The catch-up, localized. Large-net win share (win + ½·draw) against the small net at the <em>same</em> training stage, high MCTS budget; shaded band = Wilson 95 % CI, 100–200 games per point. The U-shape is the capacity story in one curve: even at random initialisation, behind through mid-training, level by round 25, clearly ahead from round 35. (Data: <code class="k">results/go9_crossover.csv</code> plus matched pairings from the tournament, calibration and catch-up files.)</figcaption>
     </figure>
 
     <h2>The same tournament on Connect Four — and two reversals</h2>
-    <p>For symmetry we ran the identical design back on Connect Four: 2 network sizes (1.67 M vs 93 k parameters) × 3 training stages × 3 search budgets {64, 600, 2,400 sims} + L1 + L3 — <b>20 agents, 190 pairs, 19,000 games</b>, with per-colour outcomes recorded for 114 pairs. Full ranking and pairwise matrix: <code class="k">results/tournament_c4_ranking_v2.png</code>, <code class="k">results/tournament_c4_heatmap_v2.png</code>. Read next to the Go results, three things stand out:</p>
+    <p>For symmetry we ran the identical design back on Connect Four: 2 network sizes (1.67 M vs 93 k parameters) × 3 training stages × 3 search budgets {64, 600, 2,400 sims} + L1 + L3 — <b>20 agents, 190 pairs, 19,000 games</b>, with per-colour outcomes recorded for 114 pairs. Full ranking and pairwise matrix: <code class="k">figures/tournament_c4_ranking_v2.png</code>, <code class="k">figures/tournament_c4_heatmap_v2.png</code>. Read next to the Go results, three things stand out:</p>
     <ul class="spaced">
       <li><b>Capacity flips back.</b> On Connect Four the big net wins everywhere: at iteration 15 it leads the small net by ~270–300 Elo at every search budget (2,944 vs 2,675 at 2,400 sims; 2,886 vs 2,582 at 600; 2,699 vs 2,384 at 64). One reading consistent with both games: C4 training fed the network 5,000 self-play games per iteration, ten times Go's 500 — capacity pays off when self-play data is plentiful relative to model size, and Go's larger net may simply be under-trained for its parameter count rather than "too big". (Testing that would mean longer Go runs or richer self-play budgets.)</li>
       <li><b>First-mover advantage: +192 Elo [+179, +207]</b> — about a 75 % win probability between equal players, draws aside — versus <b>+6 Elo [−46, +54]</b> on Go. Connect Four is a <em>proven</em> first-player win and our near-optimal agents convert that advantage relentlessly; our Go agents are nowhere near strong enough to exploit the first move at komi 0. Same model, same measurement, two regimes — and a live demonstration of why strict colour alternation inside every pairing is non-negotiable.</li>
@@ -2200,8 +2200,8 @@ buffer  ← <span class="kw">empty</span>()        <span class="com"># replay bu
     </ul>
 
     <figure class="f">
-      <img class="plate" src="results/tournament_c4_ranking_v2.png" alt="Elo ranking of all 20 Connect Four tournament agents with confidence-interval whiskers" loading="lazy">
-      <figcaption><b>Fig. 11.</b> The Connect Four ranking, same model and conventions as Fig. 7. The solid blue block on top is the story: the big net leads at every iteration × search cell. Note L3 (green) towering 408 Elo above L1 (purple) — the pool-play reversal discussed above — and the fitted first-mover advantage of +192 Elo in the axis label. (Pairwise matrix: <code class="k">results/tournament_c4_heatmap_v2.png</code>.)</figcaption>
+      <img class="plate" src="figures/tournament_c4_ranking_v2.png" alt="Elo ranking of all 20 Connect Four tournament agents with confidence-interval whiskers" loading="lazy">
+      <figcaption><b>Fig. 11.</b> The Connect Four ranking, same model and conventions as Fig. 7. The solid blue block on top is the story: the big net leads at every iteration × search cell. Note L3 (green) towering 408 Elo above L1 (purple) — the pool-play reversal discussed above — and the fitted first-mover advantage of +192 Elo in the axis label. (Pairwise matrix: <code class="k">figures/tournament_c4_heatmap_v2.png</code>.)</figcaption>
     </figure>
   </div>
 </section>
